@@ -1,4 +1,5 @@
 import fetchJsonp from 'fetch-jsonp';
+import { isValidZip, showAlert } from './validate';
 
 const petForm = document.querySelector('#pet-form');
 petForm.addEventListener('submit', fetchAnimals);
@@ -10,6 +11,13 @@ function fetchAnimals(e) {
     // Get User Input
     const animal = document.querySelector('#animal').value;
     const zip = document.querySelector('#zip').value;
+
+    // Validate Zip
+    if (!isValidZip(zip)) {
+        showAlert('Please Enter A Valid ZipCode!', 'danger');
+        return;
+    }
+
 
     // Fetch Pets
     fetchJsonp(`http://api.petfinder.com/pet.find?format=json&key=12b43680049896e7810f869b532875cf&animal=${animal}&location=${zip}&callback=callback`, {
